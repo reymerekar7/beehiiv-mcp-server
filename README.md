@@ -64,7 +64,7 @@ Replace:
 
 ## Available Tools
 
-This MCP server currently exposes the following tools:
+This MCP server currently exposes the following tools (more will be added):
 
 ### list_publications
 Lists all publications accessible with your API key.
