@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/49c44eea-278f-4836-905b-faf888688090)
+![image](https://github.com/user-attachments/assets/d16bd5fe-2057-4a32-a58d-e90bd264d73a)
 
 
 # Beehiiv MCP Server
