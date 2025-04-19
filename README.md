@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/49c44eea-278f-4836-905b-faf888688090)
+
+
 # Beehiiv MCP Server
 
 A Model Context Protocol (MCP) server that provides tools for interacting with the Beehiiv API v2. This server enables Large Language Models (LLMs) to interact with Beehiiv publications and posts through standardized tools.
