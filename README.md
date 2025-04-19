@@ -16,7 +16,7 @@ A Model Context Protocol (MCP) server that provides tools for interacting with t
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-2. Create and set up your project:
+2. If rebuilding from scratch, create and set up your project:
 ```bash
 # Create a new directory and navigate into it
 mkdir beehiiv-mcp-server
