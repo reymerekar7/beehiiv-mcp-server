@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mcp = FastMCP("beehiiv-mcp-server")
+mcp = FastMCP("beehiiv")
 
 BEEHIIV_API_KEY = os.getenv("BEEHIIV_API_KEY")
 BASE_URL = "https://api.beehiiv.com/v2"
@@ -100,6 +100,77 @@ async def get_post(publication_id: str, post_id: str) -> str:
         f"Status: {post.get('status')}\n"
         f"Authors: {post.get('authors')}"
     )
+
+@mcp.tool()
+async def get_post_content(publication_id: str, post_id: str) -> dict:
+    """
+    Retrieve a post's content as JSON to use as a template.
+
+    Args:
+        publication_id: ID of the publication
+        post_id: ID of the post
+    
+    Returns:
+        dict: JSON object containing post title, subtitle, and HTML content template
+    """
+    path = f"/publications/{publication_id}/posts/{post_id}"
+    params = {
+        "expand[]": "free_web_content"
+    }
+    
+    data = await beehiiv_request("GET", path, params=params)
+    
+    if not data or "data" not in data:
+        return {"error": "Failed to fetch the post."}
+    
+    post = data["data"]
+    content = post.get("content", {})
+    free_content = content.get("free", {})
+    
+    return {
+        "title": post.get("title"),
+        "subtitle": post.get("subtitle"),
+        "content_structure": post.get("content_structure"),
+        "html_template": free_content.get("web")
+    }
+
+@mcp.tool()
+# have not tested this as I am not an enterprise customer, but leaving here for reference
+async def create_new_post(publication_id: str, title: str, subtitle: str, html_content: str) -> str:
+    """
+    Create a new post using provided HTML content.
+
+    Args:
+        publication_id: ID of the publication
+        title: Title of the new post
+        subtitle: Subtitle of the new post
+        html_content: HTML content for the post
+    """
+    path = f"/publications/{publication_id}/posts"
+    
+    post_data = {
+        "title": title,
+        "subtitle": subtitle,
+        "content": {
+            "free": {
+                "web": html_content,
+                "email": html_content,  # You might want to format this differently for email
+                "rss": html_content    # And for RSS
+            }
+        }
+    }
+    
+    response = await beehiiv_request("POST", path, json_body=post_data)
+    
+    if not response or "data" not in response:
+        return f"Failed to create post: {response.get('error', 'Unknown error')}"
+    
+    new_post = response["data"]
+    return {
+        "status": "success",
+        "post_id": new_post.get("id"),
+        "web_url": new_post.get("web_url")
+    }
 
 if __name__ == "__main__":
     # Launch the MCP server
