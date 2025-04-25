@@ -84,6 +84,12 @@ Retrieves detailed information about a specific post.
 get_post(publication_id: str, post_id: str)
 ```
 
+### get_post_content
+Retrieves full HTML content for a post
+
+### create_new_post
+Creates new post on beehiiv platform (enterprise only)
+
 ## How It Works
 
 When you interact with this server through Claude Desktop:
