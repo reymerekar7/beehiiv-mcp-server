@@ -14,4 +14,4 @@ venv
 .env
 
 # Python notebooks
-.ipynb
+*.ipynb
